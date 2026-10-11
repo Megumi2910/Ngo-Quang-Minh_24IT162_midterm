@@ -53,6 +53,7 @@ setup_fixtures() {
 
     mkdir dir_beta
     echo "Beta 1" > dir_beta/b1.txt
+    mkdir dir_empty
 
     # Executable file
     echo '#!/bin/sh' > script_exec.sh
@@ -144,6 +145,8 @@ run_test "Numeric IDs long format (-n)" "-n" ""
 run_test "Classify indicators (-F)" "-F" ""
 run_test "Directory as plain file (-d)" "-d" "."
 run_test "Long format with dir as plain file (-ld)" "-ld" "dir_alpha"
+run_test "Long format on empty directory (-l)" "-l" "dir_empty"
+run_test "Block counts on empty directory (-s)" "-s" "dir_empty"
 
 echo -e "\n${YELLOW}--- 3. Sorting Algorithms (-S, -t, -r, -f) ---${NC}"
 run_test "Sort by size descending (-S)" "-S" ""

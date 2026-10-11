@@ -65,22 +65,13 @@ static int count_digits_ull(unsigned long long n) {
 
 void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *opts, bool is_dir_listing,
                               FileInfo **scope_files, size_t scope_count) {
-    if (files == NULL || count == 0) {
-        return;
-    }
-
-    if (scope_files == NULL || scope_count == 0) {
-        scope_files = files;
-        scope_count = count;
-    }
-
     /* Print total blocks line for directories when -l or -s is enabled */
     if (is_dir_listing && (opts->long_format || opts->show_blocks)) {
         long long total_512 = 0;
         long long total_calc = 0;
 
         for (size_t i = 0; i < count; i++) {
-            if (files[i]->stat_ok) {
+            if (files && files[i] && files[i]->stat_ok) {
                 total_512 += files[i]->st.st_blocks;
                 total_calc += get_display_blocks(files[i], opts);
             }
@@ -93,6 +84,15 @@ void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *o
         } else {
             printf("total %lld\n", total_calc);
         }
+    }
+
+    if (files == NULL || count == 0) {
+        return;
+    }
+
+    if (scope_files == NULL || scope_count == 0) {
+        scope_files = files;
+        scope_count = count;
     }
 
     /* Calculate column widths from scope_files */

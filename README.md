@@ -5,8 +5,8 @@
 - **Mã sinh viên:** 24IT162
 - **Lớp / Học phần:** Lập trình Hệ thống (System Programming)
 - **Chuẩn đặc tả tham chiếu:** NetBSD 10.1 General Commands Manual (`ls(1)`) & IEEE Std 1003.1-2008 (POSIX.1-2008)
+- **GitHub Repository:** [https://github.com/Megumi2910/Ngo-Quang-Minh_24IT162_midterm](https://github.com/Megumi2910/Ngo-Quang-Minh_24IT162_midterm)
 - **Môi trường thực thi & kiểm thử:** Linux POSIX Environment (Ubuntu 24.04 LTS / WSL2) & GCC 13+
-
 ---
 
 ## MỤC LỤC
@@ -232,7 +232,7 @@ Dự án cài đặt đầy đủ và chuẩn xác 19 cờ lệnh theo NetBSD 10
 
 Hệ thống kiểm thử tự động `tests/test_runner.sh` đã thực thi kiểm tra đối chiếu character-by-character giữa `./my_ls` và lệnh `ls` của hệ điều hành với biến chuẩn `POSIXLY_CORRECT=1` qua công cụ `diff -u`.
 
-### Bảng kết quả chạy tự động (43/43 Test Cases Passed - Tỷ lệ Đạt: 100%):
+### Bảng kết quả chạy tự động (45/45 Test Cases Passed - Tỷ lệ Đạt: 100%):
 
 | Nhóm Kiểm thử | STT | Tên Test Case | Cờ Lệnh Kiểm Tra | Kết Quả |
 |:---|:---:|:---|:---:|:---:|
@@ -244,42 +244,43 @@ Hệ thống kiểm thử tự động `tests/test_runner.sh` đã thực thi ki
 | | 06 | Classify indicators | `-F` | **PASS** |
 | | 07 | Directory as plain file | `-d .` | **PASS** |
 | | 08 | Long format with dir as plain file | `-ld dir_alpha` | **PASS** |
-| **3. Sorting** | 09 | Sort by size descending | `-S` | **PASS** |
-| | 10 | Sort by time descending | `-t` | **PASS** |
-| | 11 | Reverse lexicographical sort | `-r` | **PASS** |
-| | 12 | Reverse sort by size | `-rS` | **PASS** |
-| | 13 | Reverse sort by time | `-rt` | **PASS** |
-| | 14 | Long format sorted by size | `-lS` | **PASS** |
-| | 15 | Long format sorted by time | `-lt` | **PASS** |
-| **4. Sizes & Blocks** | 16 | Inode display | `-i` | **PASS** |
-| | 17 | Block count display | `-s` | **PASS** |
-| | 18 | Kilobytes block count | `-sk` | **PASS** |
-| | 19 | Human-readable sizes | `-lh` | **PASS** |
-| | 20 | Combined inode and blocks | `-is` | **PASS** |
-| | 21 | Combined inode and long format | `-li` | **PASS** |
-| **5. Time Variants** | 22 | Access time sorting | `-tu` | **PASS** |
-| | 23 | Status change time sorting | `-tc` | **PASS** |
-| | 24 | Access time long format | `-lu` | **PASS** |
-| | 25 | Status change time long format | `-lc` | **PASS** |
-| **6. Recursion** | 26 | Recursive listing | `-R` | **PASS** |
-| | 27 | Recursive listing with classify | `-RF` | **PASS** |
-| | 28 | Recursive listing with subfolder | `-R dir_alpha` | **PASS** |
-| **7. Override Rules** | 29 | Override `-k` then `-h` (rightmost wins) | `-kh` | **PASS** |
-| | 30 | Override `-h` then `-k` (rightmost wins) | `-hk` | **PASS** |
-| | 31 | Override `-l` then `-n` (numeric wins) | `-ln` | **PASS** |
-| | 32 | Override `-n` then `-l` (symbolic wins) | `-nl` | **PASS** |
-| | 33 | Override `-c` then `-u` (atime wins) | `-tcu` | **PASS** |
-| | 34 | Override `-u` then `-c` (ctime wins) | `-tuc` | **PASS** |
-| | 35 | Override `-R` then `-d` (`-d` wins) | `-Rd .` | **PASS** |
-| | 36 | Override `-d` then `-R` (`-d` wins) | `-dR dir_alpha`| **PASS** |
-| **8. Multi-operands** | 37 | Multiple file operands | `file_a file_b` | **PASS** |
-| | 38 | File and directory operands | `file_a dir_alpha`| **PASS** |
-| | 39 | Multiple directory operands | `dir_alpha dir_beta`| **PASS** |
-| | 40 | Multiple operands with long format | `-l file_a dir_alpha`| **PASS** |
-| **9. Error Handling** | 41 | Non-existent file operand (exit 1) | `nonexistent_file` | **PASS** |
-| | 42 | Non-existent directory operand (exit 1) | `nonexistent_dir/` | **PASS** |
-| | 43 | Invalid command-line option (exit 1) | `-Z` | **PASS** |
-
+| | 09 | Long format on empty directory | `-l dir_empty` | **PASS** |
+| | 10 | Block counts on empty directory | `-s dir_empty` | **PASS** |
+| **3. Sorting** | 11 | Sort by size descending | `-S` | **PASS** |
+| | 12 | Sort by time descending | `-t` | **PASS** |
+| | 13 | Reverse lexicographical sort | `-r` | **PASS** |
+| | 14 | Reverse sort by size | `-rS` | **PASS** |
+| | 15 | Reverse sort by time | `-rt` | **PASS** |
+| | 16 | Long format sorted by size | `-lS` | **PASS** |
+| | 17 | Long format sorted by time | `-lt` | **PASS** |
+| **4. Sizes & Blocks** | 18 | Inode display | `-i` | **PASS** |
+| | 19 | Block count display | `-s` | **PASS** |
+| | 20 | Kilobytes block count | `-sk` | **PASS** |
+| | 21 | Human-readable sizes | `-lh` | **PASS** |
+| | 22 | Combined inode and blocks | `-is` | **PASS** |
+| | 23 | Combined inode and long format | `-li` | **PASS** |
+| **5. Time Variants** | 24 | Access time sorting | `-tu` | **PASS** |
+| | 25 | Status change time sorting | `-tc` | **PASS** |
+| | 26 | Access time long format | `-lu` | **PASS** |
+| | 27 | Status change time long format | `-lc` | **PASS** |
+| **6. Recursion** | 28 | Recursive listing | `-R` | **PASS** |
+| | 29 | Recursive listing with classify | `-RF` | **PASS** |
+| | 30 | Recursive listing with subfolder | `-R dir_alpha` | **PASS** |
+| **7. Override Rules** | 31 | Override `-k` then `-h` (rightmost wins) | `-kh` | **PASS** |
+| | 32 | Override `-h` then `-k` (rightmost wins) | `-hk` | **PASS** |
+| | 33 | Override `-l` then `-n` (numeric wins) | `-ln` | **PASS** |
+| | 34 | Override `-n` then `-l` (symbolic wins) | `-nl` | **PASS** |
+| | 35 | Override `-c` then `-u` (atime wins) | `-tcu` | **PASS** |
+| | 36 | Override `-u` then `-c` (ctime wins) | `-tuc` | **PASS** |
+| | 37 | Override `-R` then `-d` (`-d` wins) | `-Rd .` | **PASS** |
+| | 38 | Override `-d` then `-R` (`-d` wins) | `-dR dir_alpha`| **PASS** |
+| **8. Multi-operands** | 39 | Multiple file operands | `file_a file_b` | **PASS** |
+| | 40 | File and directory operands | `file_a dir_alpha`| **PASS** |
+| | 41 | Multiple directory operands | `dir_alpha dir_beta`| **PASS** |
+| | 42 | Multiple operands with long format | `-l file_a dir_alpha`| **PASS** |
+| **9. Error Handling** | 43 | Non-existent file operand (exit 1) | `nonexistent_file` | **PASS** |
+| | 44 | Non-existent directory operand (exit 1) | `nonexistent_dir/` | **PASS** |
+| | 45 | Invalid command-line option (exit 1) | `-Z` | **PASS** |
 ---
 
 ## 6. HƯỚNG DẪN BIÊN DỊCH VÀ SỬ DỤNG
