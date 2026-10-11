@@ -157,7 +157,7 @@ int process_operands(int argc, char *argv[], int start_idx, const LsOptions *opt
             }
             return get_exit_status();
         }
-        return traverse_directory(".", opts, opts->recursive);
+        return traverse_directory(".", opts, false);
     }
 
     int total_operands = argc - start_idx;
@@ -182,7 +182,7 @@ int process_operands(int argc, char *argv[], int start_idx, const LsOptions *opt
         }
 
         if (is_dir && !opts->dir_as_file) {
-            return traverse_directory(op, opts, opts->recursive);
+            return traverse_directory(op, opts, false);
         } else {
             FileInfo *fi = file_info_create(NULL, op);
             if (fi != NULL) {

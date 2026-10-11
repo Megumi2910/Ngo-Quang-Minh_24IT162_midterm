@@ -74,29 +74,28 @@ static int count_digits_ull(unsigned long long n) {
 
 void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *opts, bool is_dir_listing,
                               FileInfo **scope_files, size_t scope_count) {
-    /* Print total blocks line for directories when -l or -s is enabled */
-    if (is_dir_listing && (opts->long_format || opts->show_blocks)) {
-        long long total_512 = 0;
-        long long total_calc = 0;
+    if (files == NULL || count == 0) {
+        return;
+    }
 
-        for (size_t i = 0; i < count; i++) {
-            if (files && files[i] && files[i]->stat_ok) {
-                total_512 += files[i]->st.st_blocks;
-                total_calc += get_display_blocks(files[i], opts);
-            }
-        }
-
-        if (opts->human_readable) {
-            char hum[32];
-            format_human_size(total_512 * 512, hum, sizeof(hum));
-            printf("total %s\n", hum);
-        } else {
-            printf("total %lld\n", total_calc);
+    /* Print total blocks line for directories when -l is enabled, or -s when output is a terminal */
+    bool should_print_total = false;
+    if (is_dir_listing) {
+        if (opts->long_format) {
+            should_print_total = true;
+        } else if (opts->show_blocks && isatty(STDOUT_FILENO)) {
+            should_print_total = true;
         }
     }
 
-    if (files == NULL || count == 0) {
-        return;
+    if (should_print_total) {
+        long long total_calc = 0;
+        for (size_t i = 0; i < count; i++) {
+            if (files[i] && files[i]->stat_ok) {
+                total_calc += get_display_blocks(files[i], opts);
+            }
+        }
+        printf("total %lld\n", total_calc);
     }
 
     if (scope_files == NULL || scope_count == 0) {
@@ -291,7 +290,7 @@ void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *o
             } else {
                 snprintf(mode_str, sizeof(mode_str), "??????????");
             }
-            printf("%s ", mode_str);
+            printf("%s  ", mode_str);
 
             if (fi->stat_ok) {
                 printf("%*lu ", max_nlink_w, (unsigned long)fi->st.st_nlink);
@@ -299,9 +298,8 @@ void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *o
                 printf("%*s ", max_nlink_w, "?");
             }
 
-            printf("%-*s ", max_owner_w, (owner_names && owner_names[i]) ? owner_names[i] : "?");
-            printf("%-*s ", max_group_w, (group_names && group_names[i]) ? group_names[i] : "?");
-
+            printf("%-*s  ", max_owner_w, (owner_names && owner_names[i]) ? owner_names[i] : "?");
+            printf("%-*s  ", max_group_w, (group_names && group_names[i]) ? group_names[i] : "?");
             if (fi->stat_ok && (S_ISCHR(fi->st.st_mode) || S_ISBLK(fi->st.st_mode))) {
                 printf("%*u, %*u ", max_major_w, (unsigned int)major(fi->st.st_rdev),
                                    max_minor_w, (unsigned int)minor(fi->st.st_rdev));
@@ -339,6 +337,14 @@ void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *o
 
         /* Symbolic link destination */
         if (opts->long_format && fi->stat_ok && S_ISLNK(fi->st.st_mode)) {
+            if (fi->symlink_target == NULL) {
+                char target_buf[4096];
+                ssize_t rlen = readlink(fi->full_path, target_buf, sizeof(target_buf) - 1);
+                if (rlen > 0) {
+                    target_buf[rlen] = '\0';
+                    ((FileInfo *)fi)->symlink_target = strdup(target_buf);
+                }
+            }
             if (fi->symlink_target != NULL) {
                 printf(" -> %s", fi->symlink_target);
             }

@@ -51,15 +51,7 @@ FileInfo *file_info_create(const char *parent_dir, const char *name) {
     if (lstat(fi->full_path, &fi->st) == 0) {
         fi->stat_ok = true;
 
-        /* If symbolic link, read link target */
-        if (S_ISLNK(fi->st.st_mode)) {
-            char target_buf[4096];
-            ssize_t rlen = readlink(fi->full_path, target_buf, sizeof(target_buf) - 1);
-            if (rlen > 0) {
-                target_buf[rlen] = '\0';
-                fi->symlink_target = strdup(target_buf);
-            }
-        }
+        /* Symbolic link destination will be read on demand in display */
     } else {
         fi->stat_ok = false;
         fi->err_num = errno;
