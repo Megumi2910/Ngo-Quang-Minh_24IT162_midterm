@@ -1,0 +1,8 @@
+# Build artifacts
+my_ls
+*.o
+
+# Editor & temporary files
+*.swp
+*~
+.DS_Store
