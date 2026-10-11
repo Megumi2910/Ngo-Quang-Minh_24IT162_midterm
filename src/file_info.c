@@ -126,12 +126,12 @@ void format_mode_string(mode_t mode, char *out_str) {
 
 void format_human_size(off_t bytes, char *out_str, size_t max_len) {
 #if defined(__NetBSD__)
-    if (humanize_number(out_str, max_len, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL) != -1) {
+    if (humanize_number(out_str, 5, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL) != -1) {
         return;
     }
 #endif
 
-    if (bytes < 1024) {
+    if (bytes < 1000) {
         snprintf(out_str, max_len, "%lldB", (long long)bytes);
         return;
     }
@@ -140,7 +140,7 @@ void format_human_size(off_t bytes, char *out_str, size_t max_len) {
     double size = (double)bytes;
     size_t unit_idx = 0;
 
-    while (size >= 1024.0 && unit_idx < sizeof(units) - 1) {
+    while (size >= 1000.0 && unit_idx < sizeof(units) - 1) {
         size /= 1024.0;
         unit_idx++;
     }
