@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pedantic -std=c11 -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=700
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c11 -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=700 -D_NETBSD_SOURCE
 CPPFLAGS = -Iinclude
 SRCS = src/main.c src/file_info.c src/sort.c src/display.c src/traverse.c
 OBJS = src/main.o src/file_info.o src/sort.o src/display.o src/traverse.o

@@ -1,6 +1,11 @@
 #ifndef LS_H
 #define LS_H
-
+#ifndef _NETBSD_SOURCE
+#define _NETBSD_SOURCE 1
+#endif
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE 1
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdbool.h>

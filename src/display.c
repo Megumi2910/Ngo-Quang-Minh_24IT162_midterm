@@ -8,6 +8,13 @@
 #include <sys/sysmacros.h>
 #endif
 
+#ifndef major
+#define major(dev) ((unsigned int)(((dev) >> 8) & 0xff))
+#endif
+#ifndef minor
+#define minor(dev) ((unsigned int)((dev) & 0xff))
+#endif
+
 static char get_classify_char(mode_t mode) {
     if (S_ISDIR(mode)) {
         return '/';
