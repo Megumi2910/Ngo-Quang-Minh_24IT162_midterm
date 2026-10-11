@@ -4,7 +4,9 @@
 #include <string.h>
 #include <pwd.h>
 #include <grp.h>
+#ifdef __linux__
 #include <sys/sysmacros.h>
+#endif
 
 static char get_classify_char(mode_t mode) {
     if (S_ISDIR(mode)) {
