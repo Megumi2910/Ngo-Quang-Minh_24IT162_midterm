@@ -89,19 +89,23 @@ void display_files_with_scope(FileInfo **files, size_t count, const LsOptions *o
     }
 
     if (should_print_total) {
-        long long total_calc = 0;
-        long long total_512 = 0;
-        for (size_t i = 0; i < count; i++) {
-            if (files[i] && files[i]->stat_ok) {
-                total_512 += files[i]->st.st_blocks;
-                total_calc += get_display_blocks(files[i], opts);
-            }
-        }
         if (opts->human_readable) {
+            long long total_bytes = 0;
+            for (size_t i = 0; i < count; i++) {
+                if (files[i] && files[i]->stat_ok) {
+                    total_bytes += files[i]->st.st_size;
+                }
+            }
             char hum[32];
-            format_human_size(total_512 * 512, hum, sizeof(hum));
+            format_human_size(total_bytes, hum, sizeof(hum));
             printf("total %s\n", hum);
         } else {
+            long long total_calc = 0;
+            for (size_t i = 0; i < count; i++) {
+                if (files[i] && files[i]->stat_ok) {
+                    total_calc += get_display_blocks(files[i], opts);
+                }
+            }
             printf("total %lld\n", total_calc);
         }
     }
