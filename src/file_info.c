@@ -123,7 +123,7 @@ void format_mode_string(mode_t mode, char *out_str) {
 
 void format_human_size(off_t bytes, char *out_str, size_t max_len) {
     if (bytes < 1024) {
-        snprintf(out_str, max_len, "%lld", (long long)bytes);
+        snprintf(out_str, max_len, "%lldB", (long long)bytes);
         return;
     }
 

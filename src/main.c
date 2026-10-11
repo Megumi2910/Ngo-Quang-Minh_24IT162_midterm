@@ -248,7 +248,7 @@ int process_operands(int argc, char *argv[], int start_idx, const LsOptions *opt
     /* Sort and display non-directory operands first */
     if (non_dir_count > 0) {
         sort_files(non_dirs, non_dir_count, opts);
-        display_files_with_scope(non_dirs, non_dir_count, opts, false, all_ops, all_count);
+        display_files(non_dirs, non_dir_count, opts, false);
     }
 
     /* Sort and process directory operands */
