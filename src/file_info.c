@@ -5,6 +5,9 @@
 #include <errno.h>
 #include <ctype.h>
 #include <math.h>
+#if defined(__NetBSD__)
+#include <util.h>
+#endif
 
 FileInfo *file_info_create(const char *parent_dir, const char *name) {
     if (name == NULL) {
@@ -122,6 +125,12 @@ void format_mode_string(mode_t mode, char *out_str) {
 }
 
 void format_human_size(off_t bytes, char *out_str, size_t max_len) {
+#if defined(__NetBSD__)
+    if (humanize_number(out_str, max_len, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL) != -1) {
+        return;
+    }
+#endif
+
     if (bytes < 1024) {
         snprintf(out_str, max_len, "%lldB", (long long)bytes);
         return;
@@ -143,10 +152,10 @@ void format_human_size(off_t bytes, char *out_str, size_t max_len) {
     char unit_char = units[unit_idx];
 
     if (size < 9.95) {
-        double val = ceil(size * 10.0 - 1e-9) / 10.0;
+        double val = round(size * 10.0) / 10.0;
         snprintf(out_str, max_len, "%.1f%c", val, unit_char);
     } else {
-        long rounded = (long)ceil(size - 1e-9);
+        long rounded = (long)round(size);
         snprintf(out_str, max_len, "%ld%c", rounded, unit_char);
     }
 }

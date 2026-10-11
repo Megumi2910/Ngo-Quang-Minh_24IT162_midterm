@@ -10,7 +10,7 @@ TARGET = my_ls
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(OBJS) -lm
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(OBJS) -lm -lutil
 
 src/main.o: src/main.c include/ls.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c src/main.c -o src/main.o
