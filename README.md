@@ -51,7 +51,7 @@ Dự án được phân tách thành các module chức năng độc lập theo 
 │   └── traverse.c          # Duyệt thư mục (opendir/readdir), lọc dotfiles, đệ quy -R
 ├── tests/
 │   └── test_runner.sh      # Test suite tự động 43 test cases so sánh với system ls
-└── REPORT.md               # Báo cáo kỹ thuật chi tiết
+└── README.md               # Báo cáo kỹ thuật chi tiết và tài liệu dự án
 ```
 
 ---
